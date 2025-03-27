@@ -5,6 +5,8 @@ const Listing = require("./models/listing.js");
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
+const Review = require("./models/review.js");  
+
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 main().then(()=>{
@@ -42,7 +44,7 @@ app.get("/listings/new", (req, res) => {
 // show route
 app.get("/listings/:id", async(req,res)=>{
       let {id} = req.params;
-   const listing =    await Listing.findById(id);
+   const listing =    await Listing.findById(id).populate("reviews");
       res.render("listings/show.ejs",{listing});
 })
 // create Route
@@ -82,6 +84,33 @@ app.delete("/listings/:id",async(req,res)=>{
 
   
 })
+//Reviews
+app.post("/listings/:id/reviews", async(req,res)=>{
+      let { id } = req.params;
+
+      let listing= await Listing.findById(req.params.id);
+      let newReview = new Review(req.body.review);
+      listing.reviews.push(newReview);
+
+      await newReview.save();
+      await listing.save();
+      console.log("new review saves");
+      res.redirect(`/listings/${listing._id}`);
+      
+
+      
+
+})
+
+// delete riview route
+app.delete("/listings/:id/reviews/:reviewId", async(req,res)=>{
+      let{id, reviewId } = req.params;
+
+      await Listing.findByIdAndUpdate(id,{$pull:{reviews: reviewId}});
+    await  Review.findByIdAndDelete(reviewId);
+      res.redirect(`/listings/${id}`);
+
+} )
 
 // app.get("/testListing", async(req,res)=>{
 //       let samplelisting = new Listing({
