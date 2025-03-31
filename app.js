@@ -13,6 +13,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
 const userRouter = require("./routes/user.js");
+const { isLoggedIn, isReviewAuthor } = require("./middleware/middleware.js");
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 main().then(()=>{
@@ -70,11 +71,13 @@ app.use((req,res,next)=>{
   
 app.use("/listings",listings);
 app.use("/",userRouter);
-app.post("/listings/:id/reviews", async (req, res) => {
+app.post("/listings/:id/reviews",isLoggedIn, async (req, res) => {
       let { id } = req.params;
 
       let listing = await Listing.findById(id);
       let newReview = new Review(req.body.review);
+       newReview.author = req.user._id
+      
       listing.reviews.push(newReview);
 
       await newReview.save();
@@ -97,7 +100,7 @@ app.post("/listings/:id/reviews", async (req, res) => {
 //       res.redirect(`/listings/${id}`);
 
 // })
-app.delete("/listings/:id/reviews/:reviewId", async (req, res) => {
+app.delete("/listings/:id/reviews/:reviewId", isReviewAuthor, async (req, res) => {
       let { id, reviewId } = req.params;
 
       try {

@@ -1,6 +1,6 @@
+ 
 <% layout("/layouts/boilerplate") %>
-
-      <body>
+     <body>
             <div class="row">
                   <div class="col-8 offset-2">
                         <h3><%= listing.title %></h3>
@@ -11,9 +11,9 @@
                                     style="height: 20rem">
                               <div class="card-body">
                                     <p class="card-text">
-                                          <b>
-                                                <%= listing.title %>
-                                          </b><br />
+                                        <b> <i> Owned by:<%= listing.owner.username%></i> </b>
+                                          <br/>
+                                        
                                     <ul>
                                           <li>
                                                 <%= listing.description %>
@@ -33,6 +33,19 @@
                               </div>
                         </div>
                   </div>
+              <% if( currUser && currUser._id.equals(listing.owner._id)) { %>
+
+<div class="btns">
+      <a href="/listings/<%= listing._id %>/edit" class="Edit-btn btn btn-dark col-1 offset-2 mb-3">Edit</a>
+      <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
+            <button class="btn btn-dark offset-4 mb-3">Delete</button>
+      </form>
+</div>
+
+
+             <% }%>
+
+
 
                   <div class="btns">
                         <a href="/listings/<%= listing._id %>/edit"
@@ -41,6 +54,7 @@
                               <button class="btn btn-dark offset-4 mb-3">Delete</button>
                         </form>
                   </div>
+                  <% if(currUser) {%>
                   <div class="col-8 offset-3">
                         <hr>
                         <h4> Leave a Review</h4>
@@ -55,6 +69,7 @@
                          </div>
                          <button class=" btn btn-outline-dark mb-3">Submit</button>
                         </form>
+                        <% } %>
                         <hr/>
                         <p><b>All Reviews</b></p>
                         <div class="row">
@@ -63,7 +78,7 @@
                              
                               <div class=" card col-6 mb-3">
                                     <div class="card-body">
-                                          <h5 class="card-title">Bharat Dixit</h5>
+                                          <h5 class="card-title">@<%= review.author.username %></h5>
                                           <p class="card-text"> <%=review.comment%></p>
                                           <p class="card-text"><%=review.rating%>stars </p>
                                     </div>
