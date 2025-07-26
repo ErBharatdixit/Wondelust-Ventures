@@ -1,18 +1,18 @@
 <% layout("/layouts/boilerplate") %>
 <body>
       <h2>Cretw a new Listings</h2>
-      <form method="POST" action="/listings" novalidate class="needs-validation">
+      <form method="POST" action="/listings" novalidate class="needs-validation" enctype="multipart/form-data">
             <div class="row">
                   <div class="col-8 offset-2">
-            <div class="mb-3">
-<lable for="title" class="form-label">Title</lable>
+            <div class="mb-3"> 
+<label for="title" class="form-label">Title</label>
 <input name="listing[title]" placeholder="enter title" type="text" class="form-control" required>
 <div class="valid-feedback">
     Title Looks good!
 </div>
             </div>
             <div class="mb-3">
-<lable for="description" class="form-label">Description</lable>
+<label for="description" class="form-label">Description</label>
 
 <textarea name="listing[description]"  class="form-control" required></textarea>
 <div class="invalid-feedback">
@@ -22,21 +22,27 @@
             </div>
             
 <div class="mb-3">
-<lable for="image" class="form-label">Image Link</lable>
+<label for="image" class="form-label">Image Link</label>
 
 <input name="listing[image][url]" placeholder="enter URL/Link" class="form-control">
 
 </div>
+<!-- <div class="mb-3">
+      <lable for="image" class="form-label">Image Link</lable>
+
+      <input name="listing[image][url]" placeholder="enter URL/Link" type="file" class="form-control">
+
+</div> -->
 <div class="row">
       <div class="mb-3 col-md-4" >
-            <lable for="price" class="form-label">Price</lable>
+            <label for="price" class="form-label">Price</label>
       
             <input name="listing[price]" placeholder="1200" type="number" class="form-control">
             
       
       </div>
       <div class="mb-3 col-md-8">
-            <lable for="country" class="form-label">Country</lable>
+            <label for="country" class="form-label">Country</label>
       
             <input name="listing[country]" placeholder="India" type="text" class="form-control" required>
             <div class="invalid-feedback">
@@ -49,7 +55,7 @@
 
 
 <div class="mb-3">
-<lable for="location" class="form-label">Location</lable>
+<label for="location" class="form-label">Location</label>
 
 <input name="listing[location]" placeholder="Noida,UttarPradesh" type="text" class="form-control" required>
 <div class="invalid-feedback">

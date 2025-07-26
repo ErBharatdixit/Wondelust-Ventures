@@ -30,7 +30,10 @@ const listingSchema = new Schema({
       owner:{
             type: Schema.Types.ObjectId,
             ref:"User",
-      }
+      },
+      popularity: { type: Number, default: 0 }
+}, {
+      timestamps: true
 
       
 });

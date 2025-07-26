@@ -44,7 +44,7 @@ const sessionOptions = {
       }
 };
 app.get("/", (req, res) => {
-      res.send("hi iam bharat");
+      res.render("home");
 });
 
 app.use(session(sessionOptions));
