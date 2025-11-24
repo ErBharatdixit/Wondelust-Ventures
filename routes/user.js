@@ -4,19 +4,18 @@ const User = require("../models/user.js");
 const passport = require("passport");
 const userController = require("../controller/user.js")
 
-// router.get("/signup",(req,res)=>{
-//       res.render("users/signup.ejs");
-// });
-router.get("/signup",userController.register);
-router.post("/signup", userController.signUpUser );
+router.get("/signup", userController.register);
+router.post("/signup", userController.signup);
 
-router.get("/login",userController.renderLoginForm)
+router.get("/login", userController.renderLoginForm)
 
-router.post("/login",passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }),userController.login
-);
- 
+router.post("/login", passport.authenticate('local', { failureRedirect: '/login', failureFlash: true }), userController.login);
 
-router.get("/logout",userController.logOut);
+router.get("/logout", userController.logout);
 
+router.post("/verify-otp", userController.verifyOTP);
+router.post("/resend-otp", userController.resendOTP);
+
+router.get("/admin/approve/:id", userController.approveAdmin);
 
 module.exports = router;

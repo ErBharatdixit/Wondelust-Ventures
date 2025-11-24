@@ -5,45 +5,64 @@ const Schema = mongoose.Schema;
 
 const listingSchema = new Schema({
       title: {
-            type: String
-            
+            type: String,
+            required: true
       },
-      description: String,
-            image: {
+      description: {
+            type: String,
+            required: true
+      },
+      image: {
+            url: String,
+            filename: String,
+      },
+      images: [
+            {
+                  url: String,
                   filename: String,
-                  url: {
-                        type: String,
-                        default: "https://images.unsplash.com/photo-1591779051696-1c3fa1469a79"
-                  }
             }
-,
+      ],
       price: Number,
-      location: String,
-      country: String,
-      reviews:[
+      location: {
+            type: String,
+            required: true
+      },
+      country: {
+            type: String,
+            required: true
+      },
+      state: {
+            type: String
+      },
+      reviews: [
             {
                   type: Schema.Types.ObjectId,
                   ref: "Review",
             }
-
       ],
-      owner:{
+      owner: {
             type: Schema.Types.ObjectId,
-            ref:"User",
+            ref: "User",
       },
-      popularity: { type: Number, default: 0 }
+      likes: [
+            {
+                  type: Schema.Types.ObjectId,
+                  ref: "User",
+            }
+      ],
+      popularity: { type: Number, default: 0 },
+      averageRating: { type: Number, default: 0 },
+      reviewCount: { type: Number, default: 0 }
 }, {
       timestamps: true
-
-      
 });
-listingSchema.post("findOneAndDelete",async(listing)=>{
-      if(listing){
 
-            await review.deleteMany({_id:{$in:listing.reviews}})
+listingSchema.post("findOneAndDelete", async (listing) => {
+      if (listing) {
+            await review.deleteMany({ _id: { $in: listing.reviews } })
       }
 })
 
 const Listing = mongoose.model("Listing", listingSchema);
 
-module.exports = Listing;  
+module.exports = Listing;
