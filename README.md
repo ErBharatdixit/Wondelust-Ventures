@@ -6,6 +6,9 @@
 
 Wanderlust is a full-stack MERN application that connects travelers with unique accommodations around the globe. Whether you're looking for a cozy cottage, a beachfront villa, or a modern city apartment, Wanderlust makes it easy to find and book your perfect getaway.
 
+## 🌐 Live Demo
+Check out the live application here: [Wondelust Ventures](https://wondelust-ventures-portal.onrender.com/)
+
 ---
 
 ## ✨ Key Features
