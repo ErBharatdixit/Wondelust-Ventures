@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
@@ -9,9 +9,16 @@ function Signup() {
       const [email, setEmail] = useState('');
       const [password, setPassword] = useState('');
       const [requestAdmin, setRequestAdmin] = useState(false);
-      const { signup } = useAuth();
+      const { signup, user } = useAuth();
       const navigate = useNavigate();
       const [error, setError] = useState('');
+
+      useEffect(() => {
+            if (user) {
+                  toast.success("You are already logged in");
+                  navigate('/');
+            }
+      }, [user, navigate]);
 
       const handleSubmit = async (e) => {
             e.preventDefault();

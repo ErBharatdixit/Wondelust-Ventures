@@ -22,7 +22,7 @@ const reviewApiRouter = require("./routes/api/review.js");
 const cors = require("cors");
 const { isLoggedIn, isReviewAuthor } = require("./middleware/middleware.js");
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+const MONGO_URL = process.env.ATLASDB_URL || "mongodb://127.0.0.1:27017/wanderlust";
 main().then(() => {
       console.log("connected to Database");
 
@@ -59,7 +59,7 @@ const sessionOptions = {
       store,
       secret: "mysupersecretcode",
       resave: false,
-      saveUninitialized: true,
+      saveUninitialized: false,
       cookie: {
             maxAge: 7 * 24 * 60 * 60 * 1000,
             httpOnly: true,
