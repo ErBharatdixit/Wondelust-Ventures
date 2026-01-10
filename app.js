@@ -42,7 +42,7 @@ app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
 app.use(cors({
-      origin: "http://localhost:5173",
+      origin: ["http://localhost:5173", "https://wondelust-ventures-portal.onrender.com"],
       credentials: true
 }));
 
