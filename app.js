@@ -42,7 +42,7 @@ app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
 app.use(cors({
-      origin: ["http://localhost:5173", "https://wondelust-ventures-portal.onrender.com"],
+      origin: ["http://localhost:5173", "https://wonderlust-travelportal.onrender.com", "https://wondelust-ventures-portal.onrender.com"],
       credentials: true
 }));
 
@@ -63,8 +63,8 @@ const sessionOptions = {
       cookie: {
             maxAge: 7 * 24 * 60 * 60 * 1000,
             httpOnly: true,
-            sameSite: 'lax',
-            secure: false,
+            sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax',
+            secure: process.env.NODE_ENV === "production",
       }
 };
 
