@@ -44,6 +44,17 @@ module.exports.showDetail = async (req, res) => {
 
 module.exports.createNewListing = async (req, res, next) => {
       try {
+            // Reconstruct listing object if it's sent as flat keys (listing[title], etc)
+            if (!req.body.listing && Object.keys(req.body).some(key => key.startsWith('listing['))) {
+                  req.body.listing = {};
+                  for (let key in req.body) {
+                        if (key.startsWith('listing[')) {
+                              const nestedKey = key.match(/listing\[(.*?)\]/)[1];
+                              req.body.listing[nestedKey] = req.body[key];
+                        }
+                  }
+            }
+
             const newListing = new Listing(req.body.listing);
             newListing.owner = req.user._id;
             await newListing.save();
@@ -64,6 +75,16 @@ module.exports.EditListing = async (req, res) => {
 module.exports.updateListing = async (req, res) => {
       let { id } = req.params;
 
+      // Reconstruct listing object if it's sent as flat keys (listing[title], etc)
+      if (!req.body.listing && Object.keys(req.body).some(key => key.startsWith('listing['))) {
+            req.body.listing = {};
+            for (let key in req.body) {
+                  if (key.startsWith('listing[')) {
+                        const nestedKey = key.match(/listing\[(.*?)\]/)[1];
+                        req.body.listing[nestedKey] = req.body[key];
+                  }
+            }
+      }
 
       await Listing.findByIdAndUpdate(id, { ...req.body.listing })
       req.flash("success", "Listing updated!");

@@ -163,6 +163,17 @@ module.exports.showDetail = async (req, res) => {
 
 module.exports.createNewListing = async (req, res) => {
     try {
+        // Reconstruct listing object if it's sent as flat keys (listing[title], etc)
+        if (!req.body.listing && Object.keys(req.body).some(key => key.startsWith('listing['))) {
+            req.body.listing = {};
+            for (let key in req.body) {
+                if (key.startsWith('listing[')) {
+                    const nestedKey = key.match(/listing\[(.*?)\]/)[1];
+                    req.body.listing[nestedKey] = req.body[key];
+                }
+            }
+        }
+
         const newListing = new Listing(req.body.listing);
         if (req.user) {
             newListing.owner = req.user._id;
@@ -198,6 +209,18 @@ module.exports.createNewListing = async (req, res) => {
 module.exports.updateListing = async (req, res) => {
     try {
         const { id } = req.params;
+
+        // Reconstruct listing object if it's sent as flat keys (listing[title], etc)
+        if (!req.body.listing && Object.keys(req.body).some(key => key.startsWith('listing['))) {
+            req.body.listing = {};
+            for (let key in req.body) {
+                if (key.startsWith('listing[')) {
+                    const nestedKey = key.match(/listing\[(.*?)\]/)[1];
+                    req.body.listing[nestedKey] = req.body[key];
+                }
+            }
+        }
+
         let listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
 
         if (!listing) {
